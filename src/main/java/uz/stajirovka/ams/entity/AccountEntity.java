@@ -19,6 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
+import uz.stajirovka.ams.constant.enums.AccountType;
 
 import java.time.LocalDateTime;
 
@@ -47,6 +48,10 @@ public class AccountEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     AccountStatus accountStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    AccountType accountType;
 
     @Column(nullable = false)
     Long balance;

@@ -1,10 +1,8 @@
 package uz.stajirovka.ams.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +18,6 @@ import uz.stajirovka.ams.service.AccountService;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
-@Validated
 @RequiredArgsConstructor
 public class AccountController {
 
@@ -33,22 +30,22 @@ public class AccountController {
     }
 
     @GetMapping("/{accountNumber}")
-    public AccountInfoResponseDto getAccountInfo(@PathVariable @Positive Long accountNumber) {
+    public AccountInfoResponseDto getAccountInfo(@PathVariable Long accountNumber) {
         return accountService.getAccountInfo(accountNumber);
     }
 
     @GetMapping("/{accountNumber}/balance")
-    public BalanceResponseDto getBalance(@PathVariable @Positive Long accountNumber) {
+    public BalanceResponseDto getBalance(@PathVariable Long accountNumber) {
         return accountService.getBalance(accountNumber);
     }
 
     @PostMapping("/{accountNumber}/block")
-    public AccountInfoResponseDto blockAccount(@PathVariable @Positive Long accountNumber) {
+    public AccountInfoResponseDto blockAccount(@PathVariable Long accountNumber) {
         return accountService.blockAccount(accountNumber);
     }
 
     @PostMapping("/{accountNumber}/close")
-    public AccountInfoResponseDto closeAccount(@PathVariable @Positive Long accountNumber) {
+    public AccountInfoResponseDto closeAccount(@PathVariable Long accountNumber) {
         return accountService.closeAccount(accountNumber);
     }
 }

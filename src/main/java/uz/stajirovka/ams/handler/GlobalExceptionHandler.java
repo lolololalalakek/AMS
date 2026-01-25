@@ -1,47 +1,59 @@
 package uz.stajirovka.ams.handler;
 
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import uz.stajirovka.ams.exception.AccountNotFoundException;
+import org.springframework.web.context.request.WebRequest;
+import uz.stajirovka.ams.dto.ErrorDto;
+import uz.stajirovka.ams.exception.BaseException;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(AccountNotFoundException.class)
-    public ProblemDetail handleNotFound(AccountNotFoundException ex) {
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404), ex.getMessage());
-        problem.setTitle("Account Not Found");
-        return problem;
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ErrorDto> handleBaseException(BaseException ex, WebRequest request) {
+        ErrorDto errorDto = ErrorDto.builder()
+            .message(ex.getMessage())
+            .status(ex.getStatus().value())
+            .timestamp(LocalDateTime.now())
+            .path(request.getDescription(false).replace("uri=", ""))
+            .build();
+
+        return ResponseEntity.status(ex.getStatus()).body(errorDto);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidation(MethodArgumentNotValidException ex) {
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), "Validation failed");
-        problem.setTitle("Validation Error");
+    public ResponseEntity<ErrorDto> handleValidationException(MethodArgumentNotValidException ex, WebRequest request) {
+        String errorMessage = ex.getBindingResult()
+            .getFieldErrors()
+            .stream()
+            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+            .collect(Collectors.joining(", "));
 
-        Map<String, String> errors = new LinkedHashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(e -> errors.put(e.getField(), e.getDefaultMessage()));
-        problem.setProperty("errors", errors);
+        ErrorDto errorDto = ErrorDto.builder()
+            .message(errorMessage)
+            .status(HttpStatus.BAD_REQUEST.value())
+            .timestamp(LocalDateTime.now())
+            .path(request.getDescription(false).replace("uri=", ""))
+            .build();
 
-        return problem;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ProblemDetail handleConstraint(ConstraintViolationException ex) {
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), "Constraint violation");
-        problem.setTitle("Validation Error");
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDto> handleGeneralException(Exception ex, WebRequest request) {
+        ErrorDto errorDto = ErrorDto.builder()
+            .message("Internal server error: " + ex.getMessage())
+            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .timestamp(LocalDateTime.now())
+            .path(request.getDescription(false).replace("uri=", ""))
+            .build();
 
-        Map<String, String> errors = new LinkedHashMap<>();
-        ex.getConstraintViolations().forEach(v -> errors.put(v.getPropertyPath().toString(), v.getMessage()));
-        problem.setProperty("errors", errors);
-
-        return problem;
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDto);
     }
 }

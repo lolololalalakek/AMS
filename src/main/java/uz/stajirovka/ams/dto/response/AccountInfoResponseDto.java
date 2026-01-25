@@ -3,6 +3,7 @@ package uz.stajirovka.ams.dto.response;
 import lombok.Builder;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
+import uz.stajirovka.ams.constant.enums.AccountType;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,8 @@ public record AccountInfoResponseDto(
     AccountStatus accountStatus,
 
     AccountCurrency accountCurrency,
+
+    AccountType accountType,
 
     Long balance,
 

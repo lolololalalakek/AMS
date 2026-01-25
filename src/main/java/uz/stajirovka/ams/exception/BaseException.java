@@ -1,7 +1,15 @@
 package uz.stajirovka.ams.exception;
 
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+@Getter
 public class BaseException extends RuntimeException {
-    public BaseException(String message) {
+
+    private final HttpStatus status;
+
+    public BaseException(String message, HttpStatus status) {
         super(message);
+        this.status = status;
     }
 }

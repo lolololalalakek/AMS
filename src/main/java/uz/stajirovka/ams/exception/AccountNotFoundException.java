@@ -1,7 +1,9 @@
 package uz.stajirovka.ams.exception;
 
+import org.springframework.http.HttpStatus;
+
 public class AccountNotFoundException extends BaseException {
     public AccountNotFoundException(String message) {
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
 }
