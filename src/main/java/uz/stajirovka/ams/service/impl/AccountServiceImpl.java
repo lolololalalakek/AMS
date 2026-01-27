@@ -21,8 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService {
 
-    private static final long ACCOUNT_NUMBER_MIN = 1_000_000_000_000_000L;
-    private static final long ACCOUNT_NUMBER_MAX = 9_999_999_999_999_999L;
+
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
