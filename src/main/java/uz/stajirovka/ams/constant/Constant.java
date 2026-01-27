@@ -11,7 +11,7 @@ public class Constant {
     public static final int ACCOUNT_NUMBER_LENGTH = 20;
 
     // 20216 - Стандартный префикс для счетов физлиц
-    public static final String INDIVIDUAL_ACCOUNT_PREFIX = "20216 ";
+    public static final String INDIVIDUAL_ACCOUNT_PREFIX = "20216";
 
     // 20210 - Стандартный префикс для счетов юрлиц (компании)
     public static final String LEGAL_ENTITY_ACCOUNT_PREFIX = "20210";
