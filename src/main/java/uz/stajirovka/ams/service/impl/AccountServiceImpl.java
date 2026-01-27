@@ -14,14 +14,10 @@ import uz.stajirovka.ams.mapper.AccountMapper;
 import uz.stajirovka.ams.repository.AccountRepository;
 import uz.stajirovka.ams.service.AccountService;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService {
-
-
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
