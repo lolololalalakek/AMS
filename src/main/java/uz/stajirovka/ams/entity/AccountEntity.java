@@ -25,6 +25,7 @@ import uz.stajirovka.ams.constant.enums.AccountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
@@ -37,8 +38,9 @@ import java.time.LocalDateTime;
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    UUID id; // Технический ID для API (вместо Long)
 
+    @Column(nullable = false)
     Long userId;
 
     @Pattern(regexp = Constant.ACCOUNT_NUMBER_REGEX)
