@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public AccountInfoResponseDto closeAccount(Long accountNumber) {
+    public AccountInfoResponseDto closeAccount(String accountNumber) {
         AccountEntity entity = getAccount(accountNumber);
         entity.setAccountStatus(AccountStatus.INACTIVE);
         return accountMapper.toAccountInfoResponse(entity);
