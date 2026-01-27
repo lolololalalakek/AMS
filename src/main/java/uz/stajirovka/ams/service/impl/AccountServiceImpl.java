@@ -3,7 +3,7 @@ package uz.stajirovka.ams.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.stajirovka.ams.constant.enums.enums.AccountStatus;
+import uz.stajirovka.ams.constant.enums.AccountStatus;
 import uz.stajirovka.ams.dto.request.AccountCreateRequestDto;
 import uz.stajirovka.ams.dto.response.AccountCreateResponseDto;
 import uz.stajirovka.ams.dto.response.AccountInfoResponseDto;

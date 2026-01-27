@@ -17,9 +17,9 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import uz.stajirovka.ams.constant.enums.enums.AccountCurrency;
-import uz.stajirovka.ams.constant.enums.enums.AccountStatus;
-import uz.stajirovka.ams.constant.enums.enums.AccountType;
+import uz.stajirovka.ams.constant.enums.AccountCurrency;
+import uz.stajirovka.ams.constant.enums.AccountStatus;
+import uz.stajirovka.ams.constant.enums.AccountType;
 
 import java.time.LocalDateTime;
 

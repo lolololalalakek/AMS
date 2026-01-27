@@ -1,4 +1,4 @@
-package uz.stajirovka.ams.constant.enums.enums;
+package uz.stajirovka.ams.constant.enums;
 
 public enum AccountType {
     INDIVIDUAL, //физ лицо (возможно ИП, не уверен)
