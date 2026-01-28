@@ -23,10 +23,9 @@ public interface AccountService {
 
     AccountInfoResponseDto updateCurrencyAccount(Long accountNumber, AccountCurrency accountCurrency);
 
+    Page<AccountInfoResponseDto> getAllAccountsByUserId(Long userId, FilterDto filter);
 
-    List<AccountInfoResponseDto> getAllAccountsByUserId(Long userId);
-
-    List<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status);
+    Page<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status, FilterDto filter);
 
     Page<AccountInfoResponseDto> getAllAccountInfo(FilterDto filterParams);
 

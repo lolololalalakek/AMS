@@ -14,8 +14,6 @@ import uz.stajirovka.ams.dto.response.AccountInfoResponseDto;
 import uz.stajirovka.ams.dto.response.BalanceResponseDto;
 import uz.stajirovka.ams.service.AccountService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
@@ -57,12 +55,19 @@ public class AccountController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<AccountInfoResponseDto> getAllAccountsByUserId(@PathVariable Long userId) {
-        return accountService.getAllAccountsByUserId(userId);
+    public Page<AccountInfoResponseDto> getAllAccountsByUserId(
+            @PathVariable Long userId,
+            FilterDto filter
+    ) {
+        return accountService.getAllAccountsByUserId(userId, filter);
     }
 
     @GetMapping("/status")
-    public List<AccountInfoResponseDto> getAllAccountsByStatus(@RequestParam AccountStatus status) {
-        return accountService.getAllAccountsByStatus(status);
+    public Page<AccountInfoResponseDto> getAllAccountsByStatus(
+            @RequestParam AccountStatus status,
+            FilterDto filter
+    ) {
+        return accountService.getAllAccountsByStatus(status, filter);
     }
+
 }

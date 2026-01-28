@@ -2,6 +2,7 @@ package uz.stajirovka.ams.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
@@ -65,26 +66,27 @@ public class AccountServiceImpl implements AccountService {
     public AccountInfoResponseDto updateCurrencyAccount(Long accountNumber, AccountCurrency accountCurrency) {
         AccountEntity account = getAccount(accountNumber);
         account.setAccountCurrency(accountCurrency);
-        account = accountRepository.save(account);
         return accountMapper.toAccountInfoResponse(account);
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<AccountInfoResponseDto> getAllAccountsByUserId(Long userId) {
-        return accountRepository.findAllByUserId(userId).stream()
-                .map(accountMapper::toAccountInfoResponse)
-                .toList();
+    public Page<AccountInfoResponseDto> getAllAccountsByUserId(Long userId, FilterDto filter) {
+        Pageable pageable = filter.getPageable();
+        Page<AccountEntity> page = accountRepository.findAllByUserId(userId, pageable);
+        return page.map(accountMapper::toAccountInfoResponse);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status) {
-        return accountRepository.findAllByAccountStatus(status).stream()
-                .map(accountMapper::toAccountInfoResponse)
-                .toList();
+    public Page<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status, FilterDto filter) {
+        Pageable pageable = filter.getPageable();
+        Page<AccountEntity> page = accountRepository.findAllByAccountStatus(status, pageable);
+        return page.map(accountMapper::toAccountInfoResponse);
     }
+
+
 
     @Override
     public Page<AccountInfoResponseDto> getAllAccountInfo(FilterDto filterParams) {
