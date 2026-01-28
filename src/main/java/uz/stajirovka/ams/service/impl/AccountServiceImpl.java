@@ -32,18 +32,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountInfoResponseDto getAccountInfo(Long accountNumber) {
+    public AccountInfoResponseDto getAccountInfo(String accountNumber) {
         return accountMapper.toAccountInfoResponse(getAccount(accountNumber));
     }
 
     @Override
-    public BalanceResponseDto getBalance(Long accountNumber) {
+    public BalanceResponseDto getBalance(String accountNumber) {
         return accountMapper.toBalanceResponse(getAccount(accountNumber));
     }
 
     @Override
     @Transactional
-    public AccountInfoResponseDto blockAccount(Long accountNumber) {
+    public AccountInfoResponseDto blockAccount(String accountNumber) {
         AccountEntity entity = getAccount(accountNumber);
         entity.setAccountStatus(AccountStatus.FREEZED);
         return accountMapper.toAccountInfoResponse(entity);
@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toAccountInfoResponse(entity);
     }
 
-    private AccountEntity getAccount(Long accountNumber) {
+    private AccountEntity getAccount(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber)
             .orElseThrow(() -> new AccountNotFoundException("Account not found: " + accountNumber));
     }

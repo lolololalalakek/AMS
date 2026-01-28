@@ -34,11 +34,6 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
     // Поиск по части номера счета
     Page<AccountEntity> findAllByAccountNumberStartingWith(String prefix, Pageable pageable);
 
-    // Пессимистическая блокировка
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT a FROM AccountEntity a WHERE a.accountNumber = :accountNumber")
-    Optional<AccountEntity> findByAccountNumberWithLock(String accountNumber);
-
     // Подсчет общей суммы пользователя по всем его счетам в конкретной валюте
     @Query("SELECT SUM(a.balance) FROM AccountEntity a WHERE a.userId = :userId AND a.accountCurrency = :currency")
     java.math.BigDecimal getTotalBalanceByUserIdAndCurrency(Long userId, AccountCurrency currency);
