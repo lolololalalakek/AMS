@@ -1,11 +1,11 @@
 package uz.stajirovka.ams.repository;
 
-import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
 import uz.stajirovka.ams.entity.AccountEntity;
@@ -15,26 +15,53 @@ import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
 
-    // Поиск по String, так как в номере счета 20 цифр (могут быть ведущие нули)
-    Optional<AccountEntity> findByAccountNumber(String accountNumber);
+    @Query("""
+           SELECT a 
+           FROM AccountEntity a 
+           WHERE a.accountNumber = :accountNumber
+           """)
+    Optional<AccountEntity> findByAccountNumber(@Param("accountNumber") String accountNumber);
 
-    // Метод для проверки уникальности при генерации нового номера
-    boolean existsByAccountNumber(String accountNumber);
+    @Query("""
+           SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END 
+           FROM AccountEntity a 
+           WHERE a.accountNumber = :accountNumber
+           """)
+    boolean existsByAccountNumber(@Param("accountNumber") String accountNumber);
 
-    // Поиск всех счетов одного пользователя
-    Page<AccountEntity> findAllByUserId(Long userId, Pageable pageable);
+    @Query("""
+           SELECT a 
+           FROM AccountEntity a 
+           WHERE a.userId = :userId
+           """)
+    Page<AccountEntity> findAllByUserId(@Param("userId") Long userId, Pageable pageable);
 
-    // Проверка, нет ли у пользователя уже открытого счета в определенной валюте, чтобы запретить дубликаты
-    boolean existsByUserIdAndAccountCurrencyAndAccountStatus(
-            Long userId,
-            AccountCurrency currency,
-            AccountStatus status
+    @Query("""
+           SELECT COUNT(a) > 0 
+           FROM AccountEntity a 
+           WHERE a.userId = :userId 
+             AND a.accountCurrency = :currency 
+             AND a.accountStatus = :status
+           """)
+    boolean existsByActiveAccount(
+            @Param("userId") Long userId,
+            @Param("currency") AccountCurrency currency,
+            @Param("status") AccountStatus status
     );
 
-    // Поиск по части номера счета
-    Page<AccountEntity> findAllByAccountNumberStartingWith(String prefix, Pageable pageable);
+    @Query("""
+           SELECT a
+           FROM AccountEntity a 
+           WHERE a.accountNumber LIKE :prefix%
+           """)
+    Page<AccountEntity> findAllByAccountNumberStartingWith(@Param("prefix") String prefix, Pageable pageable);
 
-    // Подсчет общей суммы пользователя по всем его счетам в конкретной валюте
-    @Query("SELECT SUM(a.balance) FROM AccountEntity a WHERE a.userId = :userId AND a.accountCurrency = :currency")
-    java.math.BigDecimal getTotalBalanceByUserIdAndCurrency(Long userId, AccountCurrency currency);
+    // Пример использования EntityGraph для жадной загрузки, если появятся связи
+    @EntityGraph(attributePaths = {"userInfo"})
+    @Query("""
+            SELECT a 
+            FROM AccountEntity a 
+            WHERE a.id = :id
+           """)
+    Optional<AccountEntity> findWithDetailsById(@Param("id") UUID id);
 }
