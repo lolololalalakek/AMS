@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @Getter
-public class FilterDto {
+public class PageRequestDto {
 
     private int page = 0;
     private int size = 10;

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
-import uz.stajirovka.ams.dto.FilterDto;
+import uz.stajirovka.ams.dto.PageRequestDto;
 import uz.stajirovka.ams.dto.request.AccountCreateRequestDto;
 import uz.stajirovka.ams.dto.response.AccountCreateResponseDto;
 import uz.stajirovka.ams.dto.response.AccountInfoResponseDto;
@@ -28,8 +28,8 @@ public class AccountController {
     }
 
     @GetMapping()
-    public Page<AccountInfoResponseDto> getAllAccounts(FilterDto filterParams) {
-        return (accountService.getAllAccountInfo(filterParams));
+    public Page<AccountInfoResponseDto> getAllAccounts(PageRequestDto filterParams) {
+        return accountService.getAllAccountInfo(filterParams);
     }
 
     @GetMapping("/{accountNumber}")
@@ -45,7 +45,7 @@ public class AccountController {
 
     @PatchMapping("/{accountNumber}/status")
     public AccountInfoResponseDto updateAccountStatus(@PathVariable Long accountNumber, @RequestParam AccountStatus status) {
-        return (accountService.updateAccountStatus(accountNumber, status));
+        return accountService.newStatus(accountNumber, status);
     }
 
 
@@ -55,18 +55,12 @@ public class AccountController {
     }
 
     @GetMapping("/user/{userId}")
-    public Page<AccountInfoResponseDto> getAllAccountsByUserId(
-            @PathVariable Long userId,
-            FilterDto filter
-    ) {
+    public Page<AccountInfoResponseDto> getAllAccountsByUserId(@PathVariable Long userId, PageRequestDto filter) {
         return accountService.getAllAccountsByUserId(userId, filter);
     }
 
     @GetMapping("/status")
-    public Page<AccountInfoResponseDto> getAllAccountsByStatus(
-            @RequestParam AccountStatus status,
-            FilterDto filter
-    ) {
+    public Page<AccountInfoResponseDto> getAllAccountsByStatus(@RequestParam AccountStatus status, PageRequestDto filter) {
         return accountService.getAllAccountsByStatus(status, filter);
     }
 

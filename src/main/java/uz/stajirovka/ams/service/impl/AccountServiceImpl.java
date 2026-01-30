@@ -1,13 +1,15 @@
 package uz.stajirovka.ams.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.stajirovka.ams.constant.Constant;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
-import uz.stajirovka.ams.dto.FilterDto;
+import uz.stajirovka.ams.dto.PageRequestDto;
 import uz.stajirovka.ams.dto.request.AccountCreateRequestDto;
 import uz.stajirovka.ams.dto.response.AccountCreateResponseDto;
 import uz.stajirovka.ams.dto.response.AccountInfoResponseDto;
@@ -18,7 +20,6 @@ import uz.stajirovka.ams.mapper.AccountMapper;
 import uz.stajirovka.ams.repository.AccountRepository;
 import uz.stajirovka.ams.service.AccountService;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public AccountInfoResponseDto updateAccountStatus(Long accountNumber, AccountStatus newStatus) {
+    public AccountInfoResponseDto newStatus(Long accountNumber, AccountStatus newStatus) {
         AccountEntity entity = getAccount(accountNumber);
         entity.setAccountStatus(newStatus);
         return accountMapper.toAccountInfoResponse(entity);
@@ -72,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<AccountInfoResponseDto> getAllAccountsByUserId(Long userId, FilterDto filter) {
+    public Page<AccountInfoResponseDto> getAllAccountsByUserId(Long userId, PageRequestDto filter) {
         Pageable pageable = filter.getPageable();
         Page<AccountEntity> page = accountRepository.findAllByUserId(userId, pageable);
         return page.map(accountMapper::toAccountInfoResponse);
@@ -80,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status, FilterDto filter) {
+    public Page<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status, PageRequestDto filter) {
         Pageable pageable = filter.getPageable();
         Page<AccountEntity> page = accountRepository.findAllByAccountStatus(status, pageable);
         return page.map(accountMapper::toAccountInfoResponse);
@@ -89,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public Page<AccountInfoResponseDto> getAllAccountInfo(FilterDto filterParams) {
+    public Page<AccountInfoResponseDto> getAllAccountInfo(PageRequestDto filterParams) {
         Page<AccountEntity> all = accountRepository.findAll(filterParams.getPageable());
         return all.map(accountMapper::toAccountInfoResponse);
     }
