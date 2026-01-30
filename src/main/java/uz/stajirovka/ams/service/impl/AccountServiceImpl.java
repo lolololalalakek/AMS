@@ -23,7 +23,6 @@ import uz.stajirovka.ams.service.AccountService;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
