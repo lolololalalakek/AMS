@@ -3,12 +3,14 @@ package uz.stajirovka.ams.dto.response;
 import lombok.Builder;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 
+import java.math.BigDecimal;
+
 @Builder
 public record BalanceResponseDto(
 
-    Long accountNumber,
+    String  accountNumber,
 
-    Long balance,
+    BigDecimal balance,
 
     AccountCurrency accountCurrency
 ) {

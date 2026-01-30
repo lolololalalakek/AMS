@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,11 +18,14 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import uz.stajirovka.ams.constant.Constant;
 import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
 import uz.stajirovka.ams.constant.enums.AccountType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
@@ -34,12 +38,14 @@ import java.time.LocalDateTime;
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    UUID id; // Технический ID для API (вместо Long)
 
+    @Column(nullable = false)
     Long userId;
 
-    @Column(nullable = false, unique = true)
-    Long accountNumber;
+    @Pattern(regexp = Constant.ACCOUNT_NUMBER_REGEX)
+    @Column(nullable = false, unique = true, length = 20)
+    String accountNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,9 +58,6 @@ public class AccountEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     AccountType accountType;
-
-    @Column(nullable = false)
-    Long balance;
 
     @CreationTimestamp
     LocalDateTime createdAt;
