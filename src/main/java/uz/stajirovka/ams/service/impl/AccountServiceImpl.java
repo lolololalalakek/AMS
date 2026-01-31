@@ -28,6 +28,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     @Override
+    @Transactional
     public AccountCreateResponseDto createAccount(AccountCreateRequestDto requestDto) {
         AccountEntity entity = accountMapper.toEntity(requestDto);
         entity.setAccountStatus(AccountStatus.ACTIVE);
@@ -47,6 +48,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public AccountInfoResponseDto updateStatus(String accountNumber, AccountStatus status) {
         AccountEntity account = getAccount(accountNumber);
         account.setAccountStatus(status);
