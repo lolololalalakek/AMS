@@ -80,7 +80,6 @@ public class AccountServiceImpl implements AccountService {
                 .accountStatus(AccountStatus.ACTIVE)
                 .build();
 
-        accountRepository.save(newAccount);
 
         return accountMapper.toAccountInfoResponse(newAccount);
     }
