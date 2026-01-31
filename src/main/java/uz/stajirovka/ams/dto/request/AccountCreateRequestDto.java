@@ -10,13 +10,13 @@ import uz.stajirovka.ams.constant.enums.AccountType;
 @Builder
 public record AccountCreateRequestDto(
 
-    @NotNull(message = "Currency is required")
-    AccountCurrency accountCurrency,
+        @NotNull(message = "User Id is required")
+        Long userId,
 
-    @NotNull(message = "Account type is required")
-    AccountType accountType,
+        @NotNull(message = "Currency is required")
+        AccountCurrency accountCurrency,
 
-    @PositiveOrZero(message = "Balance must be zero or positive")
-    Long balance
+        @NotNull(message = "Account type is required")
+        AccountType accountType
 ) {
 }

@@ -9,22 +9,27 @@ import uz.stajirovka.ams.dto.response.AccountCreateResponseDto;
 import uz.stajirovka.ams.dto.response.AccountInfoResponseDto;
 import uz.stajirovka.ams.dto.response.BalanceResponseDto;
 
+import java.util.UUID;
+
 public interface AccountService {
 
     AccountCreateResponseDto createAccount(AccountCreateRequestDto requestDto);
 
-    AccountInfoResponseDto getAccountInfo(Long accountNumber);
+    AccountInfoResponseDto getAccountInfo(String accountNumber);
 
-    BalanceResponseDto getBalance(Long accountNumber);
+    BalanceResponseDto getBalance(String accountNumber);
 
+    AccountInfoResponseDto blockAccount(String accountNumber);
     AccountInfoResponseDto newStatus(Long accountNumber, AccountStatus newStatus);
 
     AccountInfoResponseDto updateCurrencyAccount(Long accountNumber, AccountCurrency accountCurrency);
 
+    AccountInfoResponseDto closeAccount(String accountNumber);
+
+    AccountInfoResponseDto getAccountById(UUID id);
+}
     Page<AccountInfoResponseDto> getAllAccountsByUserId(Long userId, PageRequestDto filter);
 
     Page<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status, PageRequestDto filter);
 
     Page<AccountInfoResponseDto> getAllAccountInfo(PageRequestDto filterParams);
-
-}

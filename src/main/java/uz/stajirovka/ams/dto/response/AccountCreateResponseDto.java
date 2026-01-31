@@ -5,21 +5,25 @@ import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
 import uz.stajirovka.ams.constant.enums.AccountType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 public record AccountCreateResponseDto(
 
-    Long accountNumber,
+        UUID id,
 
-    AccountStatus accountStatus,
+        String accountNumber,
 
-    AccountCurrency accountCurrency,
+        AccountStatus accountStatus,
 
-    AccountType accountType,
+        AccountCurrency accountCurrency,
 
-    Long balance,
+        AccountType accountType,
 
-    LocalDateTime createdAt
+        BigDecimal balance,
+
+        LocalDateTime createdAt
 ) {
 }
