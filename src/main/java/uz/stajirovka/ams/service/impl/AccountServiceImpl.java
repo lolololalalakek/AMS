@@ -22,7 +22,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
