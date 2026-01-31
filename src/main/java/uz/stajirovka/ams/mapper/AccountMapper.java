@@ -16,7 +16,6 @@ public interface AccountMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "accountNumber", ignore = true)
     @Mapping(target = "accountStatus", ignore = true)
-    @Mapping(target = "balance", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     AccountEntity toEntity(AccountCreateRequestDto requestDto);
