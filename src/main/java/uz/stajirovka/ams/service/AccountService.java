@@ -10,6 +10,7 @@ import uz.stajirovka.ams.dto.response.AccountCreateResponseDto;
 import uz.stajirovka.ams.dto.response.AccountInfoResponseDto;
 import uz.stajirovka.ams.dto.response.BalanceResponseDto;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface AccountService {
@@ -29,7 +30,10 @@ public interface AccountService {
 
     Page<AccountInfoResponseDto> getAllAccounts(PageRequestDto filter);
 
-    Page<AccountInfoResponseDto> getAllAccountsByUserId(Long userId, PageRequestDto filter);
-
+    List<AccountInfoResponseDto> getAllAccountsByUserId(Long userId);
     Page<AccountInfoResponseDto> getAllAccountsByStatus(AccountStatus status, PageRequestDto filter);
+
+    void validateByIdAndCurrency(UUID accountId, AccountCurrency currency);
+
+    void validateByIdAndUser(UUID accountId, Long userId);
 }

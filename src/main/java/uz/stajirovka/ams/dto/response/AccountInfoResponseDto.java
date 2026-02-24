@@ -22,8 +22,6 @@ public record AccountInfoResponseDto(
 
         AccountType accountType,
 
-        BigDecimal balance,
-
         LocalDateTime createdAt,
 
         LocalDateTime updatedAt

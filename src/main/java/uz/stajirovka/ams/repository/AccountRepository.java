@@ -9,6 +9,7 @@ import uz.stajirovka.ams.constant.enums.AccountCurrency;
 import uz.stajirovka.ams.constant.enums.AccountStatus;
 import uz.stajirovka.ams.entity.AccountEntity;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,10 +50,8 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
         FROM AccountEntity a
         WHERE a.userId = :userId
     """)
-    Page<AccountEntity> findAllByUserId(
-            @Param("userId") Long userId,
-            Pageable pageable
-    );
+    List<AccountEntity> findAllByUserId(
+            @Param("userId") Long userId);
 
     @Query("""
         SELECT a
@@ -77,12 +76,8 @@ public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
             @Param("status") AccountStatus status
     );
 
-    @Query("""
-        SELECT a
-        FROM AccountEntity a
-        WHERE a.id = :id
-    """)
-    Optional<AccountEntity> findAccountById(
-            @Param("id") UUID id
-    );
+    boolean existsByIdAndAccountCurrency(UUID id, AccountCurrency currency);
+
+    boolean existsByIdAndUserId(UUID id, Long userId);
+
 }

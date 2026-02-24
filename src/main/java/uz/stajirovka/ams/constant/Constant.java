@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 
 @UtilityClass
 public class Constant {
-    public static final BigDecimal INITIAL_BALANCE = BigDecimal.ZERO;
 
     public static final int ACCOUNT_NUMBER_LENGTH = 20;
 
@@ -25,10 +24,6 @@ public class Constant {
     // Проверка, что номер счета состоит ровно из 20 цифр
     public static final String ACCOUNT_NUMBER_REGEX = "^\\d{20}$";
 
-    // Проверка формата ИНН (для юрлиц)
-    public static final String LEGAL_ENTITY_INN_REGEX = "^\\d{10}$";
 
-    // Форматы
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 }
