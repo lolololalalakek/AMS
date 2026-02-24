@@ -80,7 +80,7 @@ public class AccountController {
     }
     @Operation(summary = "Validate account by id and currency",
             description = "Returns 200 if account with given id and currency exists, otherwise 404")
-    @GetMapping("/validate/{accountId}/{currency}")
+    @GetMapping("/validate-by-id-and-currency/{accountId}/{currency}")
     @ResponseStatus(HttpStatus.OK)
     public void validateByIdAndCurrency(@PathVariable UUID accountId,
                                         @PathVariable AccountCurrency currency) {
@@ -89,7 +89,7 @@ public class AccountController {
 
     @Operation(summary = "Validate account by id and user",
             description = "Returns 200 if account with given id and user exists, otherwise 404")
-    @GetMapping("/validate/{accountId}/{userId}")
+    @GetMapping("/validate-by-id-and-user/{accountId}/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void validateByIdAndUser(@PathVariable UUID accountId,
                                     @PathVariable Long userId) {
