@@ -41,7 +41,7 @@ public class AccountEntity {
     UUID id;
 
     @Column(nullable = false)
-    Long userId;
+    UUID userId;
 
     @Pattern(regexp = Constant.ACCOUNT_NUMBER_REGEX)
     @Column(nullable = false, unique = true, length = 20)
