@@ -10,7 +10,7 @@ public record AccountInfoResponse(
 
         UUID id,
 
-        Long userId,
+        UUID userId,
 
         String accountNumber,
 

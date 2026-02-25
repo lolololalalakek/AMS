@@ -30,7 +30,6 @@ public class AccountServiceImpl implements AccountService {
     public AccountCreateResponseDto createAccount(AccountCreateRequestDto requestDto) {
         AccountEntity entity = accountMapper.toEntity(requestDto);
         entity.setAccountStatus(AccountStatus.ACTIVE);
-        entity.setBalance(BigDecimal.ZERO);
         return accountMapper.toCreateResponse(accountRepository.save(entity));
     }
 
