@@ -38,10 +38,10 @@ import java.util.UUID;
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    UUID id; // Технический ID для API (вместо Long)
+    UUID id;
 
     @Column(nullable = false)
-    Long userId;
+    UUID userId;
 
     @Pattern(regexp = Constant.ACCOUNT_NUMBER_REGEX)
     @Column(nullable = false, unique = true, length = 20)
